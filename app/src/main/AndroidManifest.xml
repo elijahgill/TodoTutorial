@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.elijahgill.todotutorial" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <fragment
+            android:name=".TodosOverviewFragment"
+            android:label="@string/app_name" >
+        </fragment>
+
+        <activity
+            android:name=".TodoDetailActivity"
+            android:label="@string/title_activity_todo_detail"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+
+        <provider
+            android:name=".com.elijahgill.todotutorial.contentprovider.MyTodoContentProvider"
+            android:authorities="com.elijahgill.todotutorial.contentprovider" >
+        </provider>
+
+        <activity
+            android:name=".TodoMainActivity"
+            android:label="@string/title_activity_todo_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

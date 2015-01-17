@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Todo Tutorial</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_todo_detail">TodoDetailActivity</string>
+    <string name="no_todos">Currently there are no Todo items maintained</string>
+    <string name="menu_insert">Add Item</string>
+    <string name="menu_delete">Delete Todo</string>
+    <string name="todo_summary">Summary</string>
+    <string name="todo_description">Delete Todo</string>
+    <string name="todo_edit_summary">Summary</string>
+    <string name="todo_edit_description">Description</string>
+    <string name="todo_edit_confirm">Confirm</string>
+    <string name="title_activity_todo_main">TodoMainActivity</string>
+    <string name="title_activity_main">TODO Tutorial</string>
+    <string name="done">Done</string>
+    <string name="due_date_label">Due date:</string>
+    <string name="priority_label">Priority:</string>
+    <string name="warning_summary">You must enter a summary</string>
+    <string name="TEST">TEST</string>
+
+</resources>
