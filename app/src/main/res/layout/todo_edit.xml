@@ -67,7 +67,8 @@
             android:focusable="false"
             android:clickable="true"
             android:inputType="datetime"
-            android:onClick="selectDate"/>
+            android:onClick="selectDate"
+            android:imeOptions="actionNext"/>
 
     </LinearLayout>
 
@@ -80,7 +81,7 @@
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/todo_edit_description"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/date_created"

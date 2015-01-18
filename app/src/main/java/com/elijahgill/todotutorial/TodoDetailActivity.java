@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +27,8 @@ import com.elijahgill.todotutorial.com.elijahgill.todotutorial.contentprovider.M
 import com.elijahgill.todotutorial.database.TodoTable;
 
 
-public class TodoDetailActivity extends FragmentActivity {
+public class TodoDetailActivity extends FragmentActivity
+        implements DatePickerDialog.OnDateSetListener {
 
     private Spinner mPriority;
     private EditText mTitleText;
@@ -45,6 +50,11 @@ public class TodoDetailActivity extends FragmentActivity {
 
         mDueDate = (EditText) findViewById(R.id.due_date);
         mIsDone = (CheckBox) findViewById(R.id.is_done);
+        mDateCreated = (TextView) findViewById(R.id.date_created);
+
+        ConfirmOnActionListener actionListener = new ConfirmOnActionListener();
+
+        mBodyText.setOnEditorActionListener(actionListener);
 
         Button confirmButton = (Button) findViewById(R.id.todo_edit_button);
 
@@ -63,12 +73,7 @@ public class TodoDetailActivity extends FragmentActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-                    makeToast( getResources().getString(R.string.warning_summary) );
-                } else {
-                    setResult(RESULT_OK);
-                    finish();
-                }
+                saveEntry();
             }
         });
 
@@ -82,13 +87,25 @@ public class TodoDetailActivity extends FragmentActivity {
 
     }
 
-    public void selectDate() {
+    public void saveEntry(){
+        if (TextUtils.isEmpty(mTitleText.getText().toString())) {
+            makeToast( getResources().getString(R.string.warning_summary) );
+        } else {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    public void selectDate(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void setDate(String date) {
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        // Called when the date picker is closed
+        // Set the DueDate field to the date
 
+        mDueDate.setText(String.format("%1$s-%2$s-%3$s", year, month+1, day));
     }
 
     private void fillData(Uri uri) {
@@ -117,6 +134,8 @@ public class TodoDetailActivity extends FragmentActivity {
                 .getColumnIndexOrThrow(TodoTable.COLUMN_IS_DONE)) !=0 );
             mDueDate.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(TodoTable.COLUMN_DUE_DATE)));
+            mDateCreated.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(TodoTable.COLUMN_DATE_CREATED)));
 
             cursor.close();
         }
@@ -164,5 +183,20 @@ public class TodoDetailActivity extends FragmentActivity {
     private void makeToast(String str) {
         Toast.makeText(TodoDetailActivity.this, str,
                 Toast.LENGTH_LONG).show();
+    }
+
+    public class ConfirmOnActionListener implements TextView.OnEditorActionListener {
+        // called when an action happens.
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            boolean retVal = false;
+
+            switch( actionId ){
+                case EditorInfo.IME_ACTION_DONE:
+                    saveEntry();
+                    retVal = true; // event handled
+                    break;
+            }
+            return retVal;
+        }
     }
 }

@@ -16,7 +16,9 @@ import com.elijahgill.todotutorial.database.TodoTable;
 
 import org.apache.http.auth.AUTH;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -89,6 +91,10 @@ public class MyTodoContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = database.getWritableDatabase();
+        // set creation date
+        Date date = new java.util.Date();
+        values.put(TodoTable.COLUMN_DATE_CREATED, new Timestamp(date.getTime()).toString());
+
         int rowsDeleted = 0;
         long id = 0;
         switch (uriType){
