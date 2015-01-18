@@ -1,14 +1,19 @@
 package com.elijahgill.todotutorial;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,7 +23,7 @@ import com.elijahgill.todotutorial.com.elijahgill.todotutorial.contentprovider.M
 import com.elijahgill.todotutorial.database.TodoTable;
 
 
-public class TodoDetailActivity extends Activity {
+public class TodoDetailActivity extends FragmentActivity {
 
     private Spinner mPriority;
     private EditText mTitleText;
@@ -66,6 +71,24 @@ public class TodoDetailActivity extends Activity {
                 }
             }
         });
+
+        mDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+    }
+
+    public void selectDate() {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void setDate(String date) {
+
     }
 
     private void fillData(Uri uri) {
